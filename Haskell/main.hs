@@ -26,8 +26,12 @@ main = do{
     putStrLn "\n reverse ";
     print $ reverse_ovrd (treeList [7,2,4,8,1,3,6,21,12,23,76,212,92,5,56,7,83,213,12312,15532,512]);
 
+    putStrLn "\n depth ";
     print $ depth (Node 7 (Node 2 (Node 1 (Empty,Empty),Node 4 (Node 3 (Empty,Empty),Node 6 (Empty,Empty))),Node 8 (Empty,Node 21 (Node 12 (Empty,Empty),Node 23 (Empty,Empty)))));
     print $ depth (treeList [7,2,4,8,1,3,6,21,12,23,76,212,92,5,56,7,83,213,12312,15532,512]);
+
+    putStrLn "\n leaves ";
+    print $ leaves (Node 7 (Node 2 (Node 1 (Empty,Empty),Node 4 (Node 3 (Empty,Empty),Node 6 (Empty,Empty))),Node 8 (Empty,Node 21 (Node 12 (Empty,Empty),Node 23 (Empty,Empty)))))
     }
 
     -- Node 7 (Node 2 (Node 1 (Empty,Empty),Node 4 (Node 3 (Empty,Empty),Node 6 (Empty,Empty))),Node 8 (Empty,Node 21 (Node 12 (Empty,Empty),Node 23 (Empty,Empty))))

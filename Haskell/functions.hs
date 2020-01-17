@@ -51,13 +51,8 @@ module Functions where
 
     leaves :: BinTree a -> [a]
     leaves Empty = []
-    leaves (Node a (ls, rs)) = leaves_tmp [a] (leaves_tmp (leaves ls) (leaves rs))
+    leaves (Node a (ls, rs)) = a:((leaves rs) ++ (leaves ls))
 
-    leaves_tmp::[a] -> [a] -> [a]
-    leaves_tmp [a] [b] = a:[b]
-    leaves_tmp [] [b] = [b]
-    leaves_tmp [a] [] = [a]
-    leaves_tmp [] [] = []
 
     depth_tmp::BinTree a -> Nat -> Nat
     depth_tmp  Empty                 x = x 
