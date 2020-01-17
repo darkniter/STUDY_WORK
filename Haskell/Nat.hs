@@ -3,7 +3,7 @@ data Nat = Zero | Succ Nat
     deriving (Show, Eq, Ord)
 instance Num Nat where
     (+) a Zero = a
-    (+) a (Succ b) = Succ (a+b)
+    (+) a (Succ b) = if a>b then Succ (a+b) else Succ (b+a)
 
     (*) a Zero = Zero
     (*) a (Succ b) = a + (a*b)
