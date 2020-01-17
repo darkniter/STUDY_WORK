@@ -49,14 +49,35 @@ module Functions where
     reverse_ovrd :: BinTree a -> BinTree a
     reverse_ovrd (Node a (ls, rs)) = Node a (rs,ls)
 
-    
+    leaves :: BinTree a -> [a]
+    leaves Empty = []
+    leaves (Node a (ls, rs)) = leaves_tmp [a] (leaves_tmp (leaves ls) (leaves rs))
 
-    -- depth_tmp::BinTree a -> Nat -> Nat
-    -- depth_tmp Node a (Empty,Empty)
-    -- comp_depth::Nat->Nat->Nat
-    -- comp_depth ls rs = if depth_tmp ls > depth_tmp rs
-    --                         then True
-    --                         else False
+    leaves_tmp::[a] -> [a] -> [a]
+    leaves_tmp [a] [b] = a:[b]
+    leaves_tmp [] [b] = [b]
+    leaves_tmp [a] [] = [a]
+    leaves_tmp [] [] = []
 
-    -- depth :: BinTree a -> Nat
-    -- depth Node a (ls, rs) = 
+    depth_tmp::BinTree a -> Nat -> Nat
+    depth_tmp  Empty                 x = x 
+    depth_tmp (Node a (Empty,Empty)) Zero = (Succ Zero)
+    depth_tmp (Node a (Empty,Empty)) x    = x + (Succ Zero)
+    depth_tmp (Node a (ls,Empty))    Zero = (depth_tmp ls Zero)
+    depth_tmp (Node a (Empty, rs))   Zero = (depth_tmp rs Zero)
+    depth_tmp (Node a (ls,Empty))    x    = (depth_tmp ls x) + x
+    depth_tmp (Node a (Empty, rs))   x    = (depth_tmp rs x) + x
+
+    depth_tmp (Node a (ls, rs))      Zero = if depth ls > depth rs
+                                      then depth_tmp ls (Succ Zero)
+                                      else depth_tmp rs (Succ Zero)
+
+    depth_tmp (Node a (ls, rs))      x    = if depth ls> depth rs
+                                      then (depth_tmp ls x) + x
+                                      else (depth_tmp rs x) + x
+
+
+    depth :: BinTree a -> Nat
+    depth (Node a (ls, rs)) = if depth_tmp ls Zero > depth_tmp rs Zero
+                            then depth_tmp ls (Succ Zero)
+                            else depth_tmp rs (Succ Zero)
