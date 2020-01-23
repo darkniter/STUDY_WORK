@@ -24,7 +24,10 @@ class AuthForm extends React.Component {
 
     SendRequestSQL(){
 
-        let SQL_request =document.getElementById('InputFormSQL').value
+        let SQL_request = document.getElementById('InputFormSQL').value
+        if (SQL_request.toLowerCase().indexOf('drop table') !==-1 ){
+            alert('Обнаружен опасный запрос, вы уверенны?')
+        }
         axios.get(`${config.flask}/`,{
         params: {user: this.state.Login, pass: this.state.Pass, staff: SQL_request}})
         .then((res)=>{
