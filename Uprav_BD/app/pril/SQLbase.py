@@ -6,6 +6,7 @@ import json
 import datetime
 import hashlib
 from functools import lru_cache
+import pril.config as config
 
 redis_connect = redis.StrictRedis(**(app.config.get_namespace('REDIS_')))
 
@@ -19,19 +20,29 @@ def hashing(user, password):
 def redis_data_output(hashing_string):
     request_rows = []
     redis_array = []
-    try:
-        redis_string_json = redis_connect.get(hashing_string)
-        redis_connect.pttl(hashing_string)
+    # try:
+    #     redis_string_json = redis_connect.get(hashing_string)
+    #     redis_connect.pttl(hashing_string)
 
-        if redis_string_json:
-            redis_array = json.loads(redis_string_json)
+    #     if redis_string_json:
+    #         redis_array = json.loads(redis_string_json)
 
 
-        if len(redis_array) > 0:
-            request_rows = redis_array
-            return request_rows
-    except BaseException:
-        print('error')
+    #     if len(redis_array) > 0:
+    #         request_rows = redis_array
+    #         return request_rows
+    # except BaseException:
+    #     print('error')
+    redis_string_json = redis_connect.get(hashing_string)
+    redis_connect.pttl(hashing_string)
+
+    if redis_string_json:
+        redis_array = json.loads(redis_string_json)
+
+
+    if len(redis_array) > 0:
+        request_rows = redis_array
+        return request_rows
     return False
 
 def redis_data_input(user, password, hashing_string, db_user, db_key):
@@ -69,20 +80,14 @@ def getUser(user, password):
 
 
 def request_SQL(user, password, request_SQL):
-
+    print(request_SQL)
     desc = request_rows = []
     start = timer()
     hashing_string = hashing(user, password)
     user = redis_data_output(hashing_string)
     if user:
-    # conn = psycopg2.connect(dbname=config.MYSQL_DATABASE_DB, user=config.MYSQL_DATABASE, 
-    #                         password=config.MYSQL_DATABASE, host=config.MYSQL_DATABASE)
-
-        # app.config['MYSQL_DATABASE_user'] = user[0]
-        # app.config['MYSQL_DATABASE_password']=user[1]
-        # print(app.config)
-        conn = psycopg2.connect(dbname=app.config['MYSQL_DATABASE_dbname'], user=app.config['MYSQL_DATABASE_user'], 
-                            password=app.config['MYSQL_DATABASE_password'], host=app.config['MYSQL_DATABASE_host'])
+        conn = psycopg2.connect(dbname=app.config.get('DB'), user=user[0], 
+                            password=user[1], host=app.config.get('HOST'))
         
         cursor = conn.cursor()
         try:
@@ -97,5 +102,5 @@ def request_SQL(user, password, request_SQL):
         # return [request_rows, desc]
         stop = timer() - start
         stop = float("{0:.4f}".format(stop))
+    return request_rows, desc
 
-        return request_rows, stop, desc

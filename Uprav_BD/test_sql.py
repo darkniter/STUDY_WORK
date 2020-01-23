@@ -19,5 +19,5 @@ def main(request_SQL):
     return [request_rows, desc]
 
 if __name__ == "__main__":
-    req = 'SELECT * From "Stafd"'
+    req = 'SELECT * From "Users"'
     main(req)
