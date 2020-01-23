@@ -7,6 +7,7 @@ import datetime
 import hashlib
 from functools import lru_cache
 import pril.config as config
+import pymysql
 
 redis_connect = redis.StrictRedis(**(app.config.get_namespace('REDIS_')))
 
@@ -82,6 +83,7 @@ def getUser(user, password):
 
 
 def request_SQL(user, password, request_SQL):
+    # request_SQL = pymysql.escape_string(request_SQL)
     print(request_SQL)
     desc = request_rows = []
     start = timer()
