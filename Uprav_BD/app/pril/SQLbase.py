@@ -76,7 +76,9 @@ def addUser(user, password, db_user, db_key):
 def getUser(user, password):
     hashing_string = hashing(user, password)
     db_user = redis_data_output(hashing_string)
-    return db_user
+    if db_user:
+        return True
+    return False
 
 
 def request_SQL(user, password, request_SQL):
@@ -102,5 +104,5 @@ def request_SQL(user, password, request_SQL):
         # return [request_rows, desc]
         stop = timer() - start
         stop = float("{0:.4f}".format(stop))
-    return request_rows, desc
+    return request_rows, desc, user
 

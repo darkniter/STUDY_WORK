@@ -15,8 +15,8 @@ def reply():
     pass_word = request.args.get('pass')
 
     if SQL_request:
-        request_rows, desc = SQLbase.request_SQL(user, pass_word, SQL_request)
-        if desc:
+        request_rows, desc, user = SQLbase.request_SQL(user, pass_word, SQL_request)
+        if desc and user:
             return jsonify({'SQL_resp':request_rows, 'descript':desc})
         else:
              return jsonify({'access_restriction' : 'SQL REQUEST FAILED'})
@@ -24,14 +24,14 @@ def reply():
         return jsonify({'access_restriction' : 'SQL REQUEST LOST'})
 
 
-@app.route('/getUser', methods=['GET'])
+@app.route('/getUser/', methods=['GET'])
 @cross_origin()
 def getDB_USER():
     user = request.args.get('user')
     pass_word = request.args.get('pass')
-    return jsonify(SQLbase.getUser(user, pass_word))
+    return jsonify({'Access': SQLbase.getUser(user, pass_word)})
 
-@app.route('/Registred', methods=['GET'])
+@app.route('/Registred/', methods=['GET'])
 @cross_origin()
 def addDB_USER():
     user = request.args.get('user')
