@@ -1,0 +1,15 @@
+CSRF_ENABLED = True
+SECRET_KEY = 'you-will-never-guess'
+DEBUG = True
+MYSQL_DATABASE_user = 'Doe_Jhon'
+MYSQL_DATABASE_password = 'Riot'
+MYSQL_DATABASE_dbname = 'darkniter'
+MYSQL_DATABASE_host = '666.666.666.666'
+
+REDIS_HOST = "redis"
+REDIS_PORT = 6379
+REDIS_DB = 0
+REDIS_PASSWORD = None
+
+EXPIRE_HOUR = 7
+EXPIRE_MINUTE = 0
